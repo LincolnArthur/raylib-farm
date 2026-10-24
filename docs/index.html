@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>raylib-farm</title>
+  <meta name="description" content="Jogo de fazenda em C com raylib, rodando no navegador via WebAssembly.">
+  <style>
+    :root { --bg: #1f2a1c; --card: #2b3a27; --text: #e8f0e0; --muted: #a9b8a0; --accent: #f4d35e; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+           font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+           display: flex; flex-direction: column; align-items: center; padding: 24px 16px; }
+    h1 { margin: 0 0 4px; font-size: 1.6rem; }
+    .sub { margin: 0 0 18px; color: var(--muted); font-size: .95rem; }
+    .frame { background: var(--card); padding: 10px; border-radius: 10px; box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+    canvas.emscripten { display: block; width: 800px; height: 600px; background: #000; border-radius: 4px; outline: none; }
+    #status { margin-top: 10px; color: var(--muted); font-size: .9rem; min-height: 1.2em; }
+    .help { max-width: 820px; margin-top: 14px; color: var(--muted); font-size: .9rem; line-height: 1.5; }
+    .help b { color: var(--text); }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <h1>raylib-farm</h1>
+  <p class="sub">Jogo de fazenda em C + raylib, compilado para WebAssembly</p>
+  <div class="frame">
+    <canvas class="emscripten" id="canvas" width="800" height="600" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  </div>
+  <div id="status">Carregando…</div>
+  <div class="help">
+    <b>Mercado</b> (prédio de baixo): compre itens e grãos ·
+    <b>Plantação</b> (canteiros no alto à esquerda): plante grãos e clique na planta com borda amarela para colher ·
+    <b>Celeiro</b> (vermelho): defina o preço e venda o que comprou.<br>
+    Melhor jogado no computador, com mouse. Código-fonte: <a href="https://github.com/LincolnArthur/raylib-farm">github.com/LincolnArthur/raylib-farm</a>
+  </div>
+  <script>
+    var statusEl = document.getElementById('status');
+    var Module = {
+      canvas: document.getElementById('canvas'),
+      print: function (t) { console.log(t); },
+      printErr: function (t) { console.warn(t); },
+      setStatus: function (t) { statusEl.textContent = t ? t.replace('Downloading data...', 'Baixando dados…') : ''; },
+      monitorRunDependencies: function (left) { if (!left) statusEl.textContent = ''; }
+    };
+    window.onerror = function () { statusEl.textContent = 'Algo deu errado ao carregar o jogo. Tente recarregar a página.'; };
+  </script>
+  <script async src="index.js"></script>
+</body>
+</html>

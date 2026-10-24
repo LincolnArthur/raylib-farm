@@ -1,0 +1,12 @@
+# Executáveis (são gerados pelo "make"; versões prontas ficam na aba Releases do GitHub)
+farmville
+farmville.exe
+*.o
+
+# Pacotes de release gerados localmente
+release/
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/
